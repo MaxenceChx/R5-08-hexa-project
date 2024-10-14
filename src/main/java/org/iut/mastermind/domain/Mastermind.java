@@ -48,6 +48,9 @@ public class Mastermind {
     // on met à jour la bd pour la partie
     // on retourne le résulat de la partie
     private ResultatPartie calculeResultat(Partie partie, String motPropose) {
+        if (partie.isTerminee()) {
+            return ResultatPartie.ERROR;
+        }
         Reponse reponse = partie.tourDeJeu(motPropose);
         partieRepository.update(partie);
         return ResultatPartie.create(reponse, partie.isTerminee());

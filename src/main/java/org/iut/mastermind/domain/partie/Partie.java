@@ -10,19 +10,19 @@ public class Partie {
     private int nbEssais;
     private boolean partieTerminee;
 
-    public Partie(Joueur joueur, String motADeviner, int nbEssais, boolean partieTerminee) {
+    private Partie(Joueur joueur, String motADeviner, int nbEssais) {
         this.joueur = joueur;
         this.motADeviner = motADeviner;
         this.nbEssais = nbEssais;
-        this.partieTerminee = partieTerminee;
+        this.partieTerminee = false;
     }
 
     public static Partie create(Joueur joueur, String motADeviner) {
-        return new Partie(joueur, motADeviner, 0, false);
+        return new Partie(joueur, motADeviner, 0);
     }
 
     public static Partie create(Joueur joueur, String motADeviner, int nbEssais) {
-        return new Partie(joueur, motADeviner, nbEssais, false);
+        return new Partie(joueur, motADeviner, nbEssais);
     }
 
     // getter joueur
@@ -46,13 +46,16 @@ public class Partie {
     // si toutes les lettres sont correctement placées,
     // on a terminé la partie
     public Reponse tourDeJeu(String motPropose) {
-        this.nbEssais++;
-        this.verifieNbEssais();
-        Reponse reponse = new Reponse(this.motADeviner);
+        nbEssais++;
+        Reponse reponse = new Reponse(motADeviner);
         reponse.compare(motPropose);
+
         if (reponse.lettresToutesPlacees()) {
             this.done();
+        } else {
+            this.verifieNbEssais();
         }
+
         return reponse;
     }
 
